@@ -1,0 +1,52 @@
+.login-panel{
+    display: flex;
+    flex-direction: column;
+}
+
+.login-panel__inputs{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin: 15px auto;
+}
+
+.login-panel__inputs input{
+    border: none;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #dcdcdc;
+    padding: 5px;
+}
+
+.login-panel__inputs button{
+    padding: 15px;
+    color: #fff;
+    border-radius: 100px;
+    border: none;
+    margin-top: 25px;
+    background: #fcbd31;
+    box-shadow: 0px 0px 15px #00000045;
+}
+
+.login-panel a{
+    text-align:  center;
+    text-decoration:  none;
+}
+
+.login-panel__forgot-password{
+    color: #7b7b7b;
+}
+
+.login-panel__create-account{
+    color: #fcbd31;
+    margin-top: 25px;
+    font-weight: 600;
+}
+
+.login-panel__welcome{
+    text-align: center;
+    margin: 50px auto;
+}
+
+.login-panel__welcome img{
+    width: 70%;
+}
