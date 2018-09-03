@@ -1,151 +1,73 @@
 import React, {Component} from 'react';
+import {default as currencies} from '../../currencies/index';
 import {
-    Card,
-    RadioGroup,
-    Radio,
-    Collapse,
-    Intent,
-    Position,
-    Button,
-    Toaster
-} from '@blueprintjs/core';
+    toPairs,
+    map
+} from 'ramda';
 
 export default class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isOpen: false,
-            balance: 0,
-            daylimitOff: 0,
-            dayLimit: 0,
-            moneyThere: [{name: "Ahmed Gamal", value: 0}],
-            income: {
-                amount: 0,
-                types: {
-                    savings: 0,
-                    salary: 0,
-                    deposits: 0
-                }
-            },
-            expense: {
-                amount: 0,
-                types: {
-                    bills: 0,
-                    clothes: 0,
-                    communication: 0,
-                    eatingOut: 0,
-                    entertainment: 0,
-                    food: 0,
-                    gifts: 0,
-                    health: 0,
-                    house: 0,
-                    sports: 0,
-                    transport: 0
-                }
-            },
+            token: '',
+            currency: '',
+            daylimit: 0,
+            user: {
+                name: 'Zeyad'
+            }
         }
-        this.handleIncomeAmountChange = this.handleIncomeAmountChange.bind(this);
-        this.handleExpenseAmountChange = this.handleExpenseAmountChange.bind(this);
-        this.handleIncomeType = this.handleIncomeType.bind(this);
-        this.handleExpenseType = this.handleExpenseType.bind(this);
+        this.handleDaylimitChange = this.handleDaylimitChange.bind(this);
+        this.handleCurrencyChange = this.handleCurrencyChange.bind(this);
     }
 
-    handleToggle() {
-        console.log(this.state.income.amount, this.state.expense.amount, this.state.balance);
-        const newBalance = this.state.balance + this.state.income.amount - this.state.expense.amount;
+    handleDaylimitChange(e) {
         this.setState({
             ...this.state,
-            income: {...this.state.income, amount: 0},
-            expense: {...this.state.expense, amount: 0},
-            isOpen: !this.state.isOpen,
-            balance: newBalance
-        });
-    }
-
-    handleIncomeType(e) {
-        const newVal = this.state.income.types[e.target.value] + this.state.income.amount;
-        this.setState({
-            income: {
-                amount: this.state.income.amount,
-                types: {
-                    ...this.state.income.types,
-                    [e.target.value]: newVal
-                }
-            }
+            daylimit: e.target.value
         })
     }
 
-    handleExpenseType(e) {
-        const newVal = this.state.expense.types[e.target.value] + this.state.expense.amount;
+    handleCurrencyChange(e) {
         this.setState({
-            expense: {
-                amount: this.state.income.amount,
-                types: {
-                    ...this.state.expense.types,
-                    [e.target.value]: newVal
-                }
-            }
+            ...this.state,
+            currency: e.target.value
         })
-    }
-
-    toArr(obj) {
-        return Array.from(Object.keys(obj), k => k);
-    }
-
-    handleIncomeAmountChange(e) {
-        this.setState({
-            income: {...this.state.income, amount: Number(e.target.value)}
-        });
-    }
-
-    handleExpenseAmountChange(e) {
-        this.setState({
-            expense: {...this.state.expense, amount: Number(e.target.value)}
-        });
     }
 
     render() {
         return (
             <div>
-                <label>New Income</label>
-                <input type="number"
-                    value={this.state.income.amount}
-                    onBlur={() => this.state.income.amount}
-                    onChange={this.handleIncomeAmountChange} />
-
                 {
-                    this.toArr(this.state.income.types).map(
-                        (e, idx) => <button name="incomeType" key={idx} value={e} onClick={this.handleIncomeType}>{e}</button>
-                    )
+                    this.state.token
+                        ? (
+                            <div>
+                                <p>Hi {this.state.user.name}</p>
+                            </div>
+                        )
+                        : (
+                            <div>
+                                <label>Set Your Goals</label>
+                                <label>Set Your Day Limit</label>
+                                <input type="number"
+                                    onChange={this.handleDaylimitChange} />
+                                <label>Set Your Currency</label>
+                                <select onChange={this.handleCurrencyChange}>
+                                    {
+                                        map(
+                                            e => (<option value={e[0]}>{e[1]}</option>),
+                                            toPairs(currencies)
+                                        )
+                                    }
+                                </select>
+
+                                <p>Your Week limit is: <span> {Number(7 * this.state.daylimit)} </span>{this.state.currency}</p>
+                                <p>Your Month limit is: <span> {Number(30 * this.state.daylimit)} </span>{this.state.currency}</p>
+                                <p>Your Year limit is: <span> {Number(365 * this.state.daylimit)} </span>{this.state.currency}</p>
+                                {console.log(currencies)}
+                                <button onClick={this.handleSubmit}>Ok, Let's begin</button>
+                            </div>
+                        )
                 }
-
-                <label>New Expense</label>
-                <input type="number"
-                    value={this.state.expense.amount}
-                    onChange={this.handleExpenseAmountChange} />
-
-                {
-                    this.toArr(this.state.expense.types).map(
-                        (e, idx) => <button name="expenseType" key={idx} value={e} onClick={this.handleExpenseType}>{e}</button>
-                    )
-                }
-
-                <div className="Task__details--button">
-                    <Button onClick={this.handleToggle.bind(this)}>Balance</Button>
-                </div>
-
-                <Collapse
-                    isOpen={this.state.isOpen}
-                    className="matchdetails Task__matchdetails"
-                >
-                    <p><span>EGP </span>{this.state.balance}</p>
-                    <p>
-                        {
-                            console.log(this.state.income.types),
-                        console.log(this.state.expense.types)
-                    }
-                    </p>
-                </Collapse>
             </div>
         )
     }
