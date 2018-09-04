@@ -2,7 +2,7 @@
   "name": "bankeeper",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://zeyadetman.github.io/bankeeper",
+  "homepage": "https://zeyadetman.github.io/bankeeper/",
   "dependencies": {
     "gh-pages": "^1.2.0",
     "ramda": "^0.25.0",
