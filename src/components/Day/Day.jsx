@@ -78,7 +78,7 @@ export default class Day extends Component {
             title: `Your ${name} added successfully`,
             description: `The amount is ${this.state[name].amount}${this.state.currency} in the category ${value},
              Check your balance for more details.`,
-            time: 500000
+            time: 5000
         });
     }
 
@@ -98,14 +98,14 @@ export default class Day extends Component {
             <div className="day">
                 <SemanticToastContainer position="top-center" />
                 <label>Day Limit in this Month: </label>
-                <div>
+                <div className="day__limit-info">
                     {
                         totalExpensesToday > this.state.dayLimit
                             ? <Message negative>
 
                             </Message>
                             : <Message success >
-                                <Message.Header>Great! You day is going well!</Message.Header>
+                                <Message.Header>Great! Your day is going well!</Message.Header>
                                 <p>You still have {this.state.dayLimit - totalExpensesToday}{this.state.currency} to expense.</p>
                             </Message>
                     }
@@ -115,7 +115,7 @@ export default class Day extends Component {
                     onChange={this.handleAmountChange}
                     type='number'
                     name="income"
-                    className="home__amount-limit"
+                    className="day__amount"
                     placeholder='New Income'>
                     <input />
                     <Label basic>{this.state.currency}</Label>
@@ -133,7 +133,7 @@ export default class Day extends Component {
                     onChange={this.handleAmountChange}
                     type='number'
                     name="expense"
-                    className="home__amount-limit"
+                    className="day__amount"
                     placeholder='New Expense'>
                     <input />
                     <Label basic>{this.state.currency}</Label>
@@ -147,21 +147,17 @@ export default class Day extends Component {
                     options={expenses}
                 />
 
-                <div className="Task__details--button">
+                <div className="day__balance-button">
                     <Button onClick={this.handleToggle.bind(this)}>Balance</Button>
                 </div>
 
-                <div
-                    isOpen={this.state.isOpen}
-                    className="matchdetails Task__matchdetails"
-                >
-                    <p><span>EGP </span>{this.state.balance}</p>
-                    <p>
-                        {
-                            console.log(this.state)
-                        }
-                    </p>
-                </div>
+
+                <p><span>EGP </span>{this.state.balance}</p>
+                <p>
+                    {
+                        console.log(this.state)
+                    }
+                </p>
             </div>
         )
     }
