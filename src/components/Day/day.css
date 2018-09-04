@@ -1,0 +1,12 @@
+.day{
+    width: 80%;
+    margin: 1rem auto;
+    text-align: center;
+}
+
+.top-center{
+    top: 0; 
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+}

@@ -1,10 +1,18 @@
 import React, {Component} from 'react';
 import {
     values,
-    reduce,
-    keysIn,
-    map
+    reduce
 } from 'ramda';
+import {
+    Button,
+    Dropdown,
+    Label,
+    Input,
+    Message
+} from 'semantic-ui-react';
+import {SemanticToastContainer, toast} from 'react-semantic-toasts';
+import {income, expenses} from '../../categories/index';
+import './day.css';
 
 export default class Day extends Component {
     constructor(props) {
@@ -17,33 +25,16 @@ export default class Day extends Component {
             dayLimit: 70,
             income: {
                 amount: 0,
-                types: {
-                    savings: 0,
-                    salary: 0,
-                    deposits: 0
-                }
+                types: {}
             },
             expense: {
                 amount: 0,
-                types: {
-                    bills: 0,
-                    clothes: 0,
-                    communication: 0,
-                    eatingOut: 0,
-                    entertainment: 0,
-                    food: 0,
-                    gifts: 0,
-                    health: 0,
-                    house: 0,
-                    sports: 0,
-                    transport: 0
-                }
+                types: {}
             },
+            currency: 'EGP'
         }
-        this.handleIncomeAmountChange = this.handleIncomeAmountChange.bind(this);
-        this.handleExpenseAmountChange = this.handleExpenseAmountChange.bind(this);
-        this.handleIncomeType = this.handleIncomeType.bind(this);
-        this.handleExpenseType = this.handleExpenseType.bind(this);
+        this.handleAmountChange = this.handleAmountChange.bind(this);
+        this.handleType = this.handleType.bind(this);
     }
 
     handleToggle() {
@@ -67,41 +58,34 @@ export default class Day extends Component {
         });
     }
 
-    handleIncomeType(e) {
-        const newVal = this.state.income.types[e.target.value] + this.state.income.amount;
+    handleType(e, {name, value}) {
+        const newVal = this.state[name].types[value]
+            ? this.state[name].types[value] + this.state[name].amount
+            : this.state[name].amount;
         this.setState({
-            income: {
+            [name]: {
                 amount: 0,
                 types: {
-                    ...this.state.income.types,
-                    [e.target.value]: newVal
-                }
-            }
-        })
-    }
-
-    handleExpenseType(e) {
-        const newVal = this.state.expense.types[e.target.value] + this.state.expense.amount;
-        this.setState({
-            expense: {
-                amount: 0,
-                types: {
-                    ...this.state.expense.types,
-                    [e.target.value]: newVal
+                    ...this.state[name].types,
+                    [value]: newVal
                 }
             }
         });
-    }
 
-    handleIncomeAmountChange(e) {
-        this.setState({
-            income: {...this.state.income, amount: Number(e.target.value)}
+        toast({
+            type: 'success',
+            icon: 'checkmark',
+            title: `Your ${name} added successfully`,
+            description: `The amount is ${this.state[name].amount}${this.state.currency} in the category ${value},
+             Check your balance for more details.`,
+            time: 500000
         });
     }
 
-    handleExpenseAmountChange(e) {
+    handleAmountChange(e, {name}) {
+        console.log(name);
         this.setState({
-            expense: {...this.state.expense, amount: Number(e.target.value)}
+            [name]: {...this.state[name], amount: Number(e.target.value)}
         });
     }
 
@@ -111,58 +95,60 @@ export default class Day extends Component {
             values(this.state.expense.types)
         );
         return (
-            <div>
+            <div className="day">
+                <SemanticToastContainer position="top-center" />
                 <label>Day Limit in this Month: </label>
-                <p type="number"
-                    value={this.state.dayLimit}
-                >
+                <div>
                     {
                         totalExpensesToday > this.state.dayLimit
-                            ? `Warning you exceed your daily expenses limit by ${totalExpensesToday - this.state.dayLimit}`
-                            : "Your day going well"
+                            ? <Message negative>
+
+                            </Message>
+                            : <Message success >
+                                <Message.Header>Great! You day is going well!</Message.Header>
+                                <p>You still have {this.state.dayLimit - totalExpensesToday}{this.state.currency} to expense.</p>
+                            </Message>
                     }
-                </p>
+                </div>
 
-                <label>New Income</label>
-                <input type="number"
-                    value={this.state.income.amount}
-                    onBlur={() => this.state.income.amount}
-                    onChange={this.handleIncomeAmountChange} />
+                <Input labelPosition='right'
+                    onChange={this.handleAmountChange}
+                    type='number'
+                    name="income"
+                    className="home__amount-limit"
+                    placeholder='New Income'>
+                    <input />
+                    <Label basic>{this.state.currency}</Label>
+                </Input>
 
-                {
-                    map(
-                        e =>
-                            <button name="incomeType"
-                                key={e}
-                                value={e}
-                                onClick={this.handleIncomeType}>
-                                {e}
-                            </button>,
-                        keysIn(this.state.income.types)
-                    )
-                }
+                <Dropdown placeholder='Select Income Category'
+                    fluid
+                    name='income'
+                    selection
+                    onChange={this.handleType}
+                    options={income}
+                />
 
-                <label>New Expense</label>
-                <input type="number"
-                    value={this.state.expense.amount}
-                    onBlur={() => this.state.expense.amount}
-                    onChange={this.handleExpenseAmountChange} />
+                <Input labelPosition='right'
+                    onChange={this.handleAmountChange}
+                    type='number'
+                    name="expense"
+                    className="home__amount-limit"
+                    placeholder='New Expense'>
+                    <input />
+                    <Label basic>{this.state.currency}</Label>
+                </Input>
 
-                {
-                    map(
-                        e =>
-                            <button name="expenseType"
-                                key={e}
-                                value={e}
-                                onClick={this.handleExpenseType}>
-                                {e}
-                            </button>,
-                        keysIn(this.state.expense.types)
-                    )
-                }
+                <Dropdown placeholder='Select Expense Category'
+                    fluid
+                    name='expense'
+                    selection
+                    onChange={this.handleType}
+                    options={expenses}
+                />
 
                 <div className="Task__details--button">
-                    <button onClick={this.handleToggle.bind(this)}>Balance</button>
+                    <Button onClick={this.handleToggle.bind(this)}>Balance</Button>
                 </div>
 
                 <div

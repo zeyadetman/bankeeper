@@ -2,22 +2,35 @@ import React, {Component} from 'react';
 import {default as currencies} from '../../currencies/index';
 import {
     toPairs,
-    map
+    map,
+    split,
+    replace
 } from 'ramda';
+import {
+    Dropdown,
+    Input,
+    Label,
+    Form,
+    TextArea,
+    Button
+} from 'semantic-ui-react';
+import './home.css';
 
 export default class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
             token: '',
-            currency: '',
+            currency: 'EGP',
             daylimit: 0,
             user: {
                 name: 'Zeyad'
-            }
+            },
+            goals: []
         }
         this.handleDaylimitChange = this.handleDaylimitChange.bind(this);
         this.handleCurrencyChange = this.handleCurrencyChange.bind(this);
+        this.handleGoalsChange = this.handleGoalsChange.bind(this);
     }
 
     handleDaylimitChange(e) {
@@ -27,16 +40,21 @@ export default class Home extends Component {
         })
     }
 
-    handleCurrencyChange(e) {
+    handleCurrencyChange(e, {name, value}) {
         this.setState({
             ...this.state,
-            currency: e.target.value
+            [name]: value
         })
+    }
+
+    handleGoalsChange(e) {
+        const goals = map(item => replace(/^\s+|\s+$/g, '', item), split(',', e.target.value));
+        this.setState({goals});
     }
 
     render() {
         return (
-            <div>
+            <div className="home">
                 {
                     this.state.token
                         ? (
@@ -46,25 +64,63 @@ export default class Home extends Component {
                         )
                         : (
                             <div>
-                                <label>Set Your Goals</label>
-                                <label>Set Your Day Limit</label>
-                                <input type="number"
-                                    onChange={this.handleDaylimitChange} />
-                                <label>Set Your Currency</label>
-                                <select onChange={this.handleCurrencyChange}>
-                                    {
-                                        map(
-                                            e => (<option value={e[0]}>{e[1]}</option>),
-                                            toPairs(currencies)
-                                        )
-                                    }
-                                </select>
 
-                                <p>Your Week limit is: <span> {Number(7 * this.state.daylimit)} </span>{this.state.currency}</p>
-                                <p>Your Month limit is: <span> {Number(30 * this.state.daylimit)} </span>{this.state.currency}</p>
-                                <p>Your Year limit is: <span> {Number(365 * this.state.daylimit)} </span>{this.state.currency}</p>
-                                {console.log(currencies)}
-                                <button onClick={this.handleSubmit}>Ok, Let's begin</button>
+                                <Form className="home__goals">
+                                    <TextArea rows={6}
+                                        placeholder="Set your goals! Comma seperated&#10;e.g. buy a car, buy a new house"
+                                        onChange={this.handleGoalsChange} />
+                                </Form>
+
+                                <Dropdown placeholder='Select Currency'
+                                    fluid
+                                    search
+                                    selection
+                                    name='currency'
+                                    className="home__currency"
+                                    value={this.state.currency}
+                                    onChange={this.handleCurrencyChange}
+                                    options={
+                                        map(ob => {
+                                            return {'key': ob[0], 'value': ob[0], 'text': ob[1]}
+                                        },
+                                            toPairs(currencies))
+                                    }
+                                />
+
+                                <Input labelPosition='right'
+                                    onChange={this.handleDaylimitChange}
+                                    type='number'
+                                    className="home__amount-limit"
+                                    placeholder='Day Limit'>
+                                    <input />
+                                    <Label basic>{this.state.currency}</Label>
+
+                                </Input>
+
+                                <div className="home__limitations">
+                                    <Label size="large">
+                                        Your Week limit is:
+                                    <Label.Detail>{Number(7 * this.state.daylimit)} </Label.Detail>
+                                        {this.state.currency}
+                                    </Label>
+
+                                    <Label size="large">
+                                        Your Month limit is:
+                                    <Label.Detail>{Number(30 * this.state.daylimit)} </Label.Detail>
+                                        {this.state.currency}
+                                    </Label>
+
+                                    <Label size="large">
+                                        Your Year limit is:
+                                    <Label.Detail>{Number(365 * this.state.daylimit)} </Label.Detail>
+                                        {this.state.currency}
+                                    </Label>
+                                </div>
+
+                                <div className="home__confirm-button">
+                                    <Button positive
+                                        onClick={this.handleSubmit}>Ok, Let's begin</Button>
+                                </div>
                             </div>
                         )
                 }

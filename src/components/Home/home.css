@@ -1,0 +1,27 @@
+.home{
+    width: 80%;
+    margin: 1rem auto;
+    text-align: center;
+}
+
+.home__limitations{
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+}
+
+.home__amount-limit{
+    margin: 5px;    
+}
+
+.home__currency{
+    margin: 5px auto;
+}
+
+.home__confirm-button{
+    margin: 10px;
+}
+
+.home__goals{
+    margin: 10px auto;
+}
