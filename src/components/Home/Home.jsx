@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
+import { Route, Link } from "react-router-dom"
 import {default as currencies} from '../../currencies/index';
+import Day from './../Day/Day';
+
 import {
     toPairs,
     map,
@@ -54,76 +57,88 @@ export default class Home extends Component {
 
     render() {
         return (
-            <div className="home">
-                {
-                    this.state.token
-                        ? (
-                            <div>
-                                <p>Hi {this.state.user.name}</p>
-                            </div>
-                        )
-                        : (
-                            <div>
+            <div>
+                <Route exact path="/" render={() => (
+                    <div className="home">
+                        {
+                            this.state.token
+                                ? (
+                                    <div>
+                                        <p>Hi {this.state.user.name}</p>
+                                    </div>
+                                )
+                                : (
+                                    <div>
 
-                                <Form className="home__goals">
-                                    <TextArea rows={6}
-                                        placeholder="Set your goals! Comma seperated&#10;e.g. buy a car, buy a new house"
-                                        onChange={this.handleGoalsChange} />
-                                </Form>
+                                        <Form className="home__goals">
+                                            <TextArea rows={6}
+                                                placeholder="Set your goals! Comma seperated&#10;e.g. buy a car, buy a new house"
+                                                onChange={this.handleGoalsChange} />
+                                        </Form>
 
-                                <Dropdown placeholder='Select Currency'
-                                    fluid
-                                    search
-                                    selection
-                                    name='currency'
-                                    className="home__currency"
-                                    value={this.state.currency}
-                                    onChange={this.handleCurrencyChange}
-                                    options={
-                                        map(ob => {
-                                            return {'key': ob[0], 'value': ob[0], 'text': ob[1]}
-                                        },
-                                            toPairs(currencies))
-                                    }
-                                />
+                                        <Dropdown placeholder='Select Currency'
+                                            fluid
+                                            search
+                                            selection
+                                            name='currency'
+                                            className="home__currency"
+                                            value={this.state.currency}
+                                            onChange={this.handleCurrencyChange}
+                                            options={
+                                                map(ob => {
+                                                    return {'key': ob[0], 'value': ob[0], 'text': ob[1]}
+                                                },
+                                                    toPairs(currencies))
+                                            }
+                                        />
 
-                                <Input labelPosition='right'
-                                    onChange={this.handleDaylimitChange}
-                                    type='number'
-                                    className="home__amount-limit"
-                                    placeholder='Day Limit'>
-                                    <input />
-                                    <Label basic>{this.state.currency}</Label>
+                                        <Input labelPosition='right'
+                                            onChange={this.handleDaylimitChange}
+                                            type='number'
+                                            className="home__amount-limit"
+                                            placeholder='Day Limit'>
+                                            <input />
+                                            <Label basic>{this.state.currency}</Label>
 
-                                </Input>
+                                        </Input>
 
-                                <div className="home__limitations">
-                                    <Label size="large">
-                                        Your Week limit is:
-                                    <Label.Detail>{Number(7 * this.state.daylimit)} </Label.Detail>
-                                        {this.state.currency}
-                                    </Label>
+                                        <div className="home__limitations">
+                                            <Label size="large">
+                                                Your Week limit is:
+                                            <Label.Detail>{Number(7 * this.state.daylimit)} </Label.Detail>
+                                                {this.state.currency}
+                                            </Label>
 
-                                    <Label size="large">
-                                        Your Month limit is:
-                                    <Label.Detail>{Number(30 * this.state.daylimit)} </Label.Detail>
-                                        {this.state.currency}
-                                    </Label>
+                                            <Label size="large">
+                                                Your Month limit is:
+                                            <Label.Detail>{Number(30 * this.state.daylimit)} </Label.Detail>
+                                                {this.state.currency}
+                                            </Label>
 
-                                    <Label size="large">
-                                        Your Year limit is:
-                                    <Label.Detail>{Number(365 * this.state.daylimit)} </Label.Detail>
-                                        {this.state.currency}
-                                    </Label>
-                                </div>
+                                            <Label size="large">
+                                                Your Year limit is:
+                                            <Label.Detail>{Number(365 * this.state.daylimit)} </Label.Detail>
+                                                {this.state.currency}
+                                            </Label>
+                                        </div>
 
-                                <div className="home__confirm-button">
-                                    <Button positive
-                                        onClick={this.handleSubmit}>Ok, Let's begin</Button>
-                                </div>
-                            </div>
-                        )
-                }
+                                        <div className="home__confirm-button">
+                                            <Link to="/Day">
+                                                <Button positive>Ok, Let's begin</Button>
+                                            </Link>
+                                        </div>
+                                    </div>
+                                )
+                        }
+                    </div>
+                )}/>
+
+                <Route path="/Day" render={({ history }) => (
+                    <Day 
+                        currency={this.state.currency}
+                        daylimit={this.state.daylimit}
+                    />
+                )}/>
             </div>
         )
     }
