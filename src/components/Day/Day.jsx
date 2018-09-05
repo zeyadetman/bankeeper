@@ -22,7 +22,6 @@ export default class Day extends Component {
             isOpen: false,
             balance: 0,
             remainingDaily: 0,
-            dayLimit: 70,
             income: {
                 amount: 0,
                 types: {}
@@ -30,8 +29,7 @@ export default class Day extends Component {
             expense: {
                 amount: 0,
                 types: {}
-            },
-            currency: 'EGP'
+            }
         }
         this.handleAmountChange = this.handleAmountChange.bind(this);
         this.handleType = this.handleType.bind(this);
@@ -76,7 +74,7 @@ export default class Day extends Component {
             type: 'success',
             icon: 'checkmark',
             title: `Your ${name} added successfully`,
-            description: `The amount is ${this.state[name].amount}${this.state.currency} in the category ${value},
+            description: `The amount is ${this.state[name].amount}${this.props.currency} in the category ${value},
              Check your balance for more details.`,
             time: 5000
         });
@@ -100,13 +98,13 @@ export default class Day extends Component {
                 <label>Day Limit in this Month: </label>
                 <div className="day__limit-info">
                     {
-                        totalExpensesToday > this.state.dayLimit
+                        totalExpensesToday > this.props.daylimit
                             ? <Message negative>
 
                             </Message>
                             : <Message success >
                                 <Message.Header>Great! Your day is going well!</Message.Header>
-                                <p>You still have {this.state.dayLimit - totalExpensesToday}{this.state.currency} to expense.</p>
+                                <p>You still have {this.props.daylimit - totalExpensesToday}{this.props.currency} to expense.</p>
                             </Message>
                     }
                 </div>
@@ -118,7 +116,7 @@ export default class Day extends Component {
                     className="day__amount"
                     placeholder='New Income'>
                     <input />
-                    <Label basic>{this.state.currency}</Label>
+                    <Label basic>{this.props.currency}</Label>
                 </Input>
 
                 <Dropdown placeholder='Select Income Category'
@@ -136,7 +134,7 @@ export default class Day extends Component {
                     className="day__amount"
                     placeholder='New Expense'>
                     <input />
-                    <Label basic>{this.state.currency}</Label>
+                    <Label basic>{this.props.currency}</Label>
                 </Input>
 
                 <Dropdown placeholder='Select Expense Category'
@@ -152,7 +150,7 @@ export default class Day extends Component {
                 </div>
 
 
-                <p><span>EGP </span>{this.state.balance}</p>
+                <p><span>{this.props.currency}  </span>{this.state.balance}</p>
                 <p>
                     {
                         console.log(this.state)
