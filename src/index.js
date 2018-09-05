@@ -7,6 +7,6 @@ import Home from './components/Home/Home';
 import { BrowserRouter } from "react-router-dom"
 
 ReactDOM.render(
-    <BrowserRouter><Home /></BrowserRouter>, 
+    <BrowserRouter basename="/bankeeper/"><Home /></BrowserRouter>, 
     document.getElementById('root'));
 registerServiceWorker();
