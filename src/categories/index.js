@@ -1,7 +1,7 @@
 export const expenses = [
     {text: 'bills', value: 'bills', image: {avatar: true, src: 'images/categories/bills.png'}},
     {text: 'clothes', value: 'clothes', image: {avatar: true, src: 'images/categories/clothes.png'}},
-    {text: 'communication', value: 'communication', image: {avatar: true, src: '/images/categories/communication.png'}},
+    {text: 'communication', value: 'communication', image: {avatar: true, src: 'images/categories/communication.png'}},
     {text: 'eating out', value: 'eatingOut', image: {avatar: true, src: 'images/categories/eatingOut.png'}},
     {text: 'entertainment', value: 'entertainment', image: {avatar: true, src: 'images/categories/entertainment.png'}},
     {text: 'food', value: 'food', image: {avatar: true, src: 'images/categories/food.png'}},
