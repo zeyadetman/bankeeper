@@ -22,6 +22,8 @@ export default class Day extends Component {
             isOpen: false,
             balance: 0,
             remainingDaily: 0,
+            daylimit: 0,
+            currency: '',
             income: {
                 amount: 0,
                 types: {}
@@ -74,7 +76,7 @@ export default class Day extends Component {
             type: 'success',
             icon: 'checkmark',
             title: `Your ${name} added successfully`,
-            description: `The amount is ${this.state[name].amount}${this.props.currency} in the category ${value},
+            description: `The amount is ${this.state[name].amount}${this.state.currency} in the category ${value},
              Check your balance for more details.`,
             time: 5000
         });
@@ -85,6 +87,16 @@ export default class Day extends Component {
         this.setState({
             [name]: {...this.state[name], amount: Number(e.target.value)}
         });
+    }
+
+    componentWillMount() {
+        const currency = localStorage.getItem('currency');
+        const daylimit = localStorage.getItem('daylimit');
+
+        this.setState({currency});
+        this.setState({daylimit});
+
+        console.log(currency, daylimit);
     }
 
     render() {
@@ -98,13 +110,14 @@ export default class Day extends Component {
                 <label>Day Limit in this Month: </label>
                 <div className="day__limit-info">
                     {
-                        totalExpensesToday > this.props.daylimit
+                        totalExpensesToday > this.state.daylimit
                             ? <Message negative>
-
+                                <Message.Header>Oh! You're in the wrong way!</Message.Header>
+                                <p>You exceeded the daily limit, Try to save {totalExpensesToday - this.state.daylimit}{this.state.currency} and come back to your correct way.</p>
                             </Message>
                             : <Message success >
                                 <Message.Header>Great! Your day is going well!</Message.Header>
-                                <p>You still have {this.props.daylimit - totalExpensesToday}{this.props.currency} to expense.</p>
+                                <p>You still have {this.state.daylimit - totalExpensesToday}{this.state.currency} to expense.</p>
                             </Message>
                     }
                 </div>
@@ -116,7 +129,7 @@ export default class Day extends Component {
                     className="day__amount"
                     placeholder='New Income'>
                     <input />
-                    <Label basic>{this.props.currency}</Label>
+                    <Label basic>{this.state.currency}</Label>
                 </Input>
 
                 <Dropdown placeholder='Select Income Category'
@@ -134,7 +147,7 @@ export default class Day extends Component {
                     className="day__amount"
                     placeholder='New Expense'>
                     <input />
-                    <Label basic>{this.props.currency}</Label>
+                    <Label basic>{this.state.currency}</Label>
                 </Input>
 
                 <Dropdown placeholder='Select Expense Category'
@@ -150,7 +163,7 @@ export default class Day extends Component {
                 </div>
 
 
-                <p><span>{this.props.currency}  </span>{this.state.balance}</p>
+                <p><span>{this.state.currency}  </span>{this.state.balance}</p>
                 <p>
                     {
                         console.log(this.state)
