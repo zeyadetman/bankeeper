@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Route, Link } from "react-router-dom"
+import {Route, Link} from "react-router-dom"
 import {default as currencies} from '../../currencies/index';
 import Day from './../Day/Day';
 
@@ -34,6 +34,7 @@ export default class Home extends Component {
         this.handleDaylimitChange = this.handleDaylimitChange.bind(this);
         this.handleCurrencyChange = this.handleCurrencyChange.bind(this);
         this.handleGoalsChange = this.handleGoalsChange.bind(this);
+        this.onClick = this.onClick.bind(this);
     }
 
     handleDaylimitChange(e) {
@@ -53,6 +54,11 @@ export default class Home extends Component {
     handleGoalsChange(e) {
         const goals = map(item => replace(/^\s+|\s+$/g, '', item), split(',', e.target.value));
         this.setState({goals});
+    }
+
+    onClick(e) {
+        localStorage.setItem('currency', this.state.currency);
+        localStorage.setItem('daylimit', this.state.daylimit);
     }
 
     render() {
@@ -124,21 +130,22 @@ export default class Home extends Component {
 
                                         <div className="home__confirm-button">
                                             <Link to="/Day">
-                                                <Button positive>Ok, Let's begin</Button>
+                                                <Button onClick={this.onClick} positive>Ok, Let's begin</Button>
                                             </Link>
                                         </div>
                                     </div>
                                 )
                         }
                     </div>
-                )}/>
+                )} />
 
-                <Route path="/Day" render={({ history }) => (
-                    <Day 
+                <Route path="/Day" render={({history}) => (
+                    <Day
                         currency={this.state.currency}
                         daylimit={this.state.daylimit}
                     />
-                )}/>
+                )}
+                />
             </div>
         )
     }
