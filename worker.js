@@ -30,7 +30,7 @@ self.addEventListener('install', function (event) {
                         '/css/*.css',
                         '/js/*.js',
                         '/*.html',
-                        '../images/categories/*.png',
+                        '/images/categories/*.png',
                     ]);
                 })
         );
