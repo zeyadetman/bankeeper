@@ -20,7 +20,7 @@
       "density": 4.0
     }
   ],
-  "start_url": "/",
+  "start_url": "/bankeeper/",
   "display": "fullscreen",
   "theme_color": "#FCA326",
   "background_color": "#424242"
