@@ -12,9 +12,15 @@
       "sizes": "512x512",
       "type": "image/png",
       "density": 4.0
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512 192x192 144x144 128x128",
+      "type": "image/png",
+      "density": 4.0
     }
   ],
-  "start_url": "/bankeeper/",
+  "start_url": "/",
   "display": "fullscreen",
   "theme_color": "#FCA326",
   "background_color": "#424242"
