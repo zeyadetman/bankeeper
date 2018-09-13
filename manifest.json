@@ -1,15 +1,21 @@
 {
   "short_name": "Bankeeper",
-  "name": "Bankeeper | Manage your daily money",
+  "name": "Bankeeper | Manage your financial life",
   "icons": [
     {
       "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "density": 4.0
     }
   ],
   "start_url": "./index.html",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "display": "fullscreen",
+  "theme_color": "#FCA326",
+  "background_color": "#FFFFFF"
 }
