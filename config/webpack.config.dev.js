@@ -202,6 +202,7 @@ module.exports = {
             loader: require.resolve('file-loader'),
             options: {
               name: 'static/media/[name].[hash:8].[ext]',
+              emitWarning: true,
             },
           },
         ],
