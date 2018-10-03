@@ -5,6 +5,8 @@
 ## Overview
 
  The app will track your expenses in more details, to stay you awaken to save your money.
+You open the app, set your goals related to money, say you wanna buy a car, then set the amount of money you'll not exceed it in your days.
+Calender not provided yet!
 
 ## CONTRIBUTIONS
 **The app in its first steps, every bit of code are welcome!**
