@@ -98,12 +98,21 @@
   "babel": {
     "presets": [
       "react-app"
+    ],
+    "plugins": [
+      [
+        "module-resolver",
+        {
+          "root": ["./src"]
+        }
+      ]
     ]
   },
   "eslintConfig": {
     "extends": "react-app"
   },
   "devDependencies": {
+    "babel-plugin-module-resolver": "^3.1.1",
     "sw-precache": "^5.2.1"
   }
 }
