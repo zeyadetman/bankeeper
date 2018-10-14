@@ -12,7 +12,7 @@ import {
   Message
 } from 'semantic-ui-react';
 import {SemanticToastContainer, toast} from 'react-semantic-toasts';
-import {income, expenses} from '../../categories/index';
+import {income, expenses} from 'categories/index';
 import './day.css';
 
 export default class Day extends Component {

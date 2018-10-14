@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React, {Component} from 'react';
 import {Route, Link} from 'react-router-dom';
-import {default as currencies} from '../../currencies/index';
-import Day from './../Day/Day';
+import currencies from 'currencies'
+import Day from 'components/Day/Day';
 
 import {
   toPairs,
