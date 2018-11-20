@@ -1,3 +1,7 @@
+<h1 align=center>
+<img src="logo/Logotype 512.svg" width=50%>
+</h1>
+
 # BANKEEPER
 
   *This app is your assistant to manage your financial life.*
